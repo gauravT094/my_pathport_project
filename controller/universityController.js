@@ -324,3 +324,36 @@ exports.search_university=async(req,res)=>{
         )
     }
 }
+
+
+exports.get_university_staff=async(req,res)=>{
+    try{
+       let data=req.body;
+       let status='active'
+       let get_staff="SELECT * FROM `staff` WHERE university_id='"+data.university_id+"' && status='"+status+"'"
+       let check_get_staff=await queryDb(get_staff)
+       if(!check_get_staff.length>0){
+        res.send(
+            {
+                status:myconstants.error_code,
+                message:"data not found"
+            }
+        )
+       }else{
+        res.send(
+            {
+                status:myconstants.success_code,
+                message:"successfully accessed the staff from spescific university",
+                result:check_get_staff
+            }
+        )
+       }
+    }catch(err){
+        res.send(
+            {
+                status:myconstants.error_code,
+                message:err.message
+            }
+        )
+    }
+  }

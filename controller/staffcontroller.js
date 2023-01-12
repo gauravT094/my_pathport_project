@@ -143,3 +143,35 @@ conn.connect(function(err) {
         )
     }
   }
+
+  exports.get_All_staff=async(req,res)=>{
+    try{
+      let data=req.body;
+      let status='active'
+      let get_staff_data="SELECT * FROM `university` WHERE status='"+status+"'"
+      let check_get_staff_data=await queryDb(get_staff_data)
+      if(!check_get_staff_data.length>0){
+        res.send(
+            {
+                status:myconstants.error_code,
+                message:"Data not found"
+            }
+        )
+      }else{
+        res.send(
+            {
+                status:myconstants.success_code,
+                message:"successfully accessed the staff data",
+                result:check_get_staff_data
+            }
+        )
+      }
+    }catch(err){
+        res.send(
+            {
+                status:myconstants.error_code,
+                message:err.message
+            }
+        )
+    }
+  }
